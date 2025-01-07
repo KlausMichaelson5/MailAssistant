@@ -1,0 +1,33 @@
+﻿using MailAssistant.Contracts.Interfaces;
+using MailAssistant.Services.Interfaces;
+using MailAssistant.Services.Services;
+using MailAssistant.WebApi.Interfaces;
+using MailAssistant.WebApi.Services;
+
+namespace MailAssistant.WebApi.Helpers
+{
+    /// <summary>
+    /// The <c>ServiceRegistrar</c> class is responsible for registering services
+    /// for dependency injection in the application.
+    /// </summary>
+    internal static class ServiceRegistrar
+    {
+        /// <summary>
+        /// Configures the services for the application.
+        /// </summary>
+        /// <param name="services">The service collection to which services are added.</param>
+        internal static void ConfigureServices(IServiceCollection services)
+        {
+            services.AddTransient<IChatDataService, ChatDataService>();
+            services.AddTransient<IEmailDataService, EmailDataService>();
+
+            services.AddTransient<IKernelFactory, AzureOpenAIKernel>();
+            services.AddTransient<ISettingsFactory, OpenAIFunctionChoiceRequired>();
+
+            services.AddSingleton<IChatService, AzureChatAssistant>();
+            services.AddSingleton<IEmailService, AzureEmailAssistant>();
+
+            services.AddLogging(configure => configure.AddConsole());
+        }
+    }
+}

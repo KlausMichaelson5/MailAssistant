@@ -1,0 +1,16 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/MailAssistant.BlazorWebApp/bin/Debug/net8.0
+/MailAssistant.BlazorWebApp/obj
+/MailAssistant.Helpers/bin/Debug/net8.0
+/MailAssistant.Helpers/obj/Debug/net8.0
+/MailAssistant.Helpers/obj/Release/net8.0
+/MailAssistant.Helpers/obj
+/MailAssistant.Service/.vs/MaildAssistant.Service
+/MailAssistant.Service/bin/Debug/net8.0
+/MailAssistant.Service/obj
+/MailAssistant.WebApi/bin/Debug/net8.0
+/MailAssistant.WebApi/obj
