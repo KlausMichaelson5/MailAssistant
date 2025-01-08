@@ -12,11 +12,16 @@ namespace MailAssistant.BlazorWebApp.Components.Pages
         /// </summary>
         private async void ShareMessage()
         {
-            if(emailToReview.EmailRecipient!=null)
+            if(!string.IsNullOrEmpty(emailToReview.EmailRecipient))
             {
                 await JSHelper.CallJavaScriptFunctionAsync(JS, "sendEmail", emailToReview.Email, emailToReview.EmailRecipient, emailToReview.EmailSubject);
+
+                emailToReview.Email=string.Empty;
+                emailToReview.EmailRecipient=string.Empty;
+                emailToReview.EmailSubject=string.Empty;
             }
             await JSHelper.CallJavaScriptFunctionAsync(JS, "sendEmail", emailToReview.Email);
+            emailToReview.Email = string.Empty;
         }
 	}
 }
