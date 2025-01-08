@@ -1,4 +1,6 @@
-﻿using MailAssistant.BlazorWebApp.Interfaces;
+﻿using System.Net;
+using MailAssistant.BlazorWebApp.Components.Models;
+using MailAssistant.BlazorWebApp.Interfaces;
 using MailAssistant.BlazorWebApp.Models;
 
 
@@ -26,20 +28,23 @@ namespace MailAssistant.BlazorWebApp.Services
             _logger = logger;   
         }
 
-        public async Task<string> GetAssistantDraftEmail(string userRequest)
+        public async Task<string> GetAssistantDraftEmail(EmailModel userRequestEmail)
         {
             var response=string.Empty;
-            var request = new EmailRequest
-            {
-                UserRequest = userRequest
-            };
             try
             {
-                var httpResponse = await _httpClient.PostAsJsonAsync(_apiPaths.EmailApi, request);
+                var httpResponse = await _httpClient.PostAsJsonAsync(_apiPaths.EmailApi, userRequestEmail);
                 if (!httpResponse.IsSuccessStatusCode)
                 {
+                    if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
+                    {
+                        response = "Invalid request.Please check whether all required fields are entered properly";
+                    }
+                    else
+                    {
+                        response = "Internal server error.Please try again later";
+                    }
                     _logger.LogError($"Internal error status code:{httpResponse.StatusCode} response:{httpResponse} ");
-                    response = "Internal server error.Please try again later";
                 }
                 else
                 {

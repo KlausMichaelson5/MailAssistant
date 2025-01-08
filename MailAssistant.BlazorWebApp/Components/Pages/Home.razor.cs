@@ -21,8 +21,8 @@ namespace MailAssistant.BlazorWebApp.Components.Pages
 		{
             await JSHelper.CallJavaScriptFunctionAsync(JS, "disableButtons");
             await JSHelper.CallJavaScriptFunctionAsync(JS, "scrollWindowToBottom");
-            var userRequest = $"{emailModel}";
-			await GetAssistantReply(userRequest);
+            var userRequestEmail =emailModel;
+			await GetAssistantReply(userRequestEmail);
             await JSHelper.CallJavaScriptFunctionAsync(JS, "enableButtons");
             await JSHelper.CallJavaScriptFunctionAsync(JS, "scrollWindowToBottom");
         }
@@ -31,12 +31,12 @@ namespace MailAssistant.BlazorWebApp.Components.Pages
         /// Gets the assistant's reply to the user's email request.
         /// </summary>
         /// <param name="userRequest">The user's email request.</param>
-        private async Task GetAssistantReply(string userRequest)
+        private async Task GetAssistantReply(EmailModel userRequestEmail)
 		{
 			isLoading = true;
 			StateHasChanged();
 
-			var assistantReply = await emailService.GetAssistantDraftEmail(userRequest);
+			var assistantReply = await emailService.GetAssistantDraftEmail(userRequestEmail);
 			if (assistantReply != null)
 			{
 				message = assistantReply;
@@ -95,6 +95,7 @@ namespace MailAssistant.BlazorWebApp.Components.Pages
         {
 			emailToOptimize.Email = message;
 			await Task.Run(()=>{ Navigation.NavigateTo("/Chatbot"); });
+            await JSHelper.CallJavaScriptFunctionAsync(JS, "simulateChatbotButtonClick");
         }
     }
 }

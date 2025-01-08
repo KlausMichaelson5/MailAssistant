@@ -1,7 +1,7 @@
 ﻿namespace MailAssistant.BlazorWebApp.Components.Models
 {
     /// <summary>
-    /// Provides information about an email.Used to pass email between review page and home/chatbot page.
+    /// Provides information about an email.Used to pass email between home/chatbot page and to review page.
     /// </summary>
     internal class EmailInfoService
     {

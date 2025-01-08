@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-
+using Microsoft.SemanticKernel.Plugins.Core;
 namespace MailAssistant.Services.Services
 {
     /// <summary>
@@ -41,6 +41,9 @@ namespace MailAssistant.Services.Services
             kernel = _kernelFactory.CreateKernel();
             openAIPromptExecutionSettings = _settingsFactory.CreateSettings();
             kernel.Plugins.AddFromType<EmailDraftingPlugin>("EmailDrafting");
+            #pragma warning disable SKEXP0050
+            kernel.Plugins.AddFromType<TimePlugin>("TimePlugin");
+            #pragma warning restore SKEXP0050
 
         }
 

@@ -1,4 +1,5 @@
 ﻿using MailAssistant.Services.Interfaces;
+using MailAssistant.WebApi.Helpers;
 using MailAssistant.WebApi.Interfaces;
 using MailAssistant.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -27,14 +28,14 @@ namespace MailAssistant.WebAPI.Controllers
         }
 
         /// <summary>
-        /// Gets a draft email based on the user's request.
+        /// Gets a draft email based on the user's userRequestEmail.
         /// </summary>
-        /// <param name="request">The email request containing the user's request.</param>
+        /// <param name="userRequestEmail">The email userRequestEmail containing the user's userRequestEmail.</param>
         /// <returns>An <see cref="IActionResult"/> containing the draft email.</returns>
         [HttpPost("GetDraftEmail")]
-        public async Task<IActionResult> GetDraftEmail([FromBody] EmailRequest request)
+        public async Task<IActionResult> GetDraftEmail([FromBody] EmailModel userRequestEmail)
         {
-            if (request == null || string.IsNullOrEmpty(request.UserRequest))
+            if (EmailModelValidator.ArePropertiesNullOrEmpty(userRequestEmail))
             {
                 _logger.LogWarning($"Invalid request.");
                 return BadRequest("Invalid request.");
@@ -42,7 +43,7 @@ namespace MailAssistant.WebAPI.Controllers
 
             try
             {
-                var response = await _emailDataService.GetDraftEmail(request.UserRequest);
+                var response = await _emailDataService.GetDraftEmail(userRequestEmail);
                 return Ok(response);
             }
             catch (Exception ex)

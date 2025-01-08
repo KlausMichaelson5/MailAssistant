@@ -1,5 +1,6 @@
 ﻿using MailAssistant.Services.Interfaces;
 using MailAssistant.WebApi.Interfaces;
+using MailAssistant.WebApi.Models;
 
 namespace MailAssistant.WebApi.Services
 {
@@ -23,13 +24,13 @@ namespace MailAssistant.WebApi.Services
             _logger = logger;   
         }
 
-        public async Task<string> GetDraftEmail(string userRequest)
+        public async Task<string> GetDraftEmail(EmailModel userRequestEmail)
         {
 
             var response = string.Empty;
             try
             {
-                response = await _emailService.GetAssistantDraftEmail(userRequest);
+                response = await _emailService.GetAssistantDraftEmail($"{userRequestEmail}");
             }
             catch (Exception ex)
             {

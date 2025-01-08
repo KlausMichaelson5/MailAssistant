@@ -42,3 +42,7 @@ function enableButtons() {
         button.disabled = false;
     });
 }
+function simulateChatbotButtonClick() {
+    var button = document.getElementById("contact-tab2");
+    button.click();
+}

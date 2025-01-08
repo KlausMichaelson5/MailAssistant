@@ -1,4 +1,6 @@
-﻿namespace MailAssistant.WebApi.Interfaces
+﻿using MailAssistant.WebApi.Models;
+
+namespace MailAssistant.WebApi.Interfaces
 {
     /// <summary>
     /// Defines the methods for email data services.Used by WebAPI to interact with DLL/service to get data.
@@ -8,8 +10,8 @@
         /// <summary>
         /// Gets a draft email based on the user's request.
         /// </summary>
-        /// <param name="userRequest">The user's input message.</param>
+        /// <param name="userRequestEmail">The user's input message.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the draft email.</returns>
-        Task<String> GetDraftEmail(string  userRequest);
+        Task<String> GetDraftEmail(EmailModel  userRequestEmail);
     }
 }
