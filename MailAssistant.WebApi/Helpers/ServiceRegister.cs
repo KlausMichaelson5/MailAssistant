@@ -3,6 +3,7 @@ using MailAssistant.Services.Interfaces;
 using MailAssistant.Services.Services;
 using MailAssistant.WebApi.Interfaces;
 using MailAssistant.WebApi.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MailAssistant.WebApi.Helpers
 {
@@ -26,6 +27,9 @@ namespace MailAssistant.WebApi.Helpers
 
             services.AddSingleton<IChatService, AzureChatAssistant>();
             services.AddSingleton<IEmailService, AzureEmailAssistant>();
+
+            services.Configure<ApiBehaviorOptions>(options
+                  => options.SuppressModelStateInvalidFilter = true);
 
             services.AddLogging(configure => configure.AddConsole());
         }

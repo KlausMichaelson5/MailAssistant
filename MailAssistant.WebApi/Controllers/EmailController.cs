@@ -1,6 +1,4 @@
-﻿using MailAssistant.Services.Interfaces;
-using MailAssistant.WebApi.Helpers;
-using MailAssistant.WebApi.Interfaces;
+﻿using MailAssistant.WebApi.Interfaces;
 using MailAssistant.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,14 +33,15 @@ namespace MailAssistant.WebAPI.Controllers
         [HttpPost("GetDraftEmail")]
         public async Task<IActionResult> GetDraftEmail([FromBody] EmailModel userRequestEmail)
         {
-            if (EmailModelValidator.ArePropertiesNullOrEmpty(userRequestEmail))
-            {
-                _logger.LogWarning($"Invalid request.");
-                return BadRequest("Invalid request.");
-            }
-
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    var validationErrors = ModelState.Values.SelectMany(v => v.Errors.Select(m=>m.ErrorMessage));
+                    _logger.LogWarning("Validation error: {Errors}", validationErrors);
+                    return BadRequest(validationErrors);
+                }
+
                 var response = await _emailDataService.GetDraftEmail(userRequestEmail);
                 return Ok(response);
             }

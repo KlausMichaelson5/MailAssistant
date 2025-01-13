@@ -38,13 +38,16 @@ namespace MailAssistant.BlazorWebApp.Services
                 {
                     if (httpResponse.StatusCode == HttpStatusCode.BadRequest)
                     {
-                        response = "Invalid request.Please check whether all required fields are entered properly";
+                        var badRequestErrors = await httpResponse.Content.ReadAsStringAsync();
+                        response = $"Validation errors: {badRequestErrors.Trim('[', ']').Replace('"', ' ')}";
+
                     }
                     else
                     {
-                        response = "Internal server error.Please try again later";
+                         response = $"Error {httpResponse.StatusCode}.Please try again later";
                     }
-                    _logger.LogError($"Internal error status code:{httpResponse.StatusCode} response:{httpResponse} ");
+                    _logger.LogWarning($"Internal error status code:{httpResponse.StatusCode} response:{response} ");
+
                 }
                 else
                 {
