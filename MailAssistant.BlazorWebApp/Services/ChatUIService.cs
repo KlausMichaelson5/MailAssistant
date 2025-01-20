@@ -38,7 +38,7 @@ namespace MailAssistant.BlazorWebApp.Services
                 if (!httpResponse.IsSuccessStatusCode)
                 {
                     _logger.LogError($"Internal error status code:{httpResponse.StatusCode} response:{httpResponse} ");
-                    response = $"Error {httpResponse.StatusCode}.Please try again later";
+                    response = $"{httpResponse.ReasonPhrase}.Please try again later";
                 }
                 else
                 {
